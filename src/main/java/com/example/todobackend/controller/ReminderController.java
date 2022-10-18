@@ -77,3 +77,5 @@ public class ReminderController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT); // ?AS
     }
 }
+
+//alt+j alt alta olan kelimelerin tümünü seçme kısayolu

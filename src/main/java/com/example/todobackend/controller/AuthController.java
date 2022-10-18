@@ -70,7 +70,7 @@ public class AuthController {
         );
 
         Role userRole = roleRepository.findByType(ERole.USER)
-                .orElseThrow(() -> new RuntimeException("Error: Role is not found.")); // RoleWithNameNotFoundException
+                .orElseThrow(() -> new RoleNotFoundException("USER")); // RoleWithNameNotFoundException
 
         user.setRole(userRole);
         User user1 = userRepository.save(user);

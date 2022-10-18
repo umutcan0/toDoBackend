@@ -12,7 +12,7 @@ import java.util.Date;
 
 public class ReminderCreateRequest {
 
-    // DateAfter diye bir anotasyon acabilirsin, bu anotasyon direkt alttaki date'i alir su anki saatle compare eder
+    // DateAfter diye bir anotasyon acabilirsin, bu anotasyon direkt alttaki date'yi alir su anki saatle compare eder
     // Java date compare
     @Future //my annotation
     private Date date;
