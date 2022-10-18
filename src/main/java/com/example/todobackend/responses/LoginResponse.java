@@ -2,8 +2,6 @@ package com.example.todobackend.responses;
 
 import com.example.todobackend.log.InfoLogger;
 
-import java.util.List;
-
 public class LoginResponse {
     private String token;
     private String type = "Bearer";
@@ -22,7 +20,6 @@ public class LoginResponse {
 
     }
     public LoginResponse() {
-
 
     }
 

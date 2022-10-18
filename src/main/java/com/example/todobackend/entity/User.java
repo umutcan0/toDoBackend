@@ -26,16 +26,12 @@ public class User {
     @Column(name= "password")
     private String password;
 
-    @Column
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Token token;
 
-    @Column
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Verified verified;
 
-
-    @Column()
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<ItemList> lists = new HashSet<>(); // id = 6
 

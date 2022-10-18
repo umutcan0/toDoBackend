@@ -8,12 +8,14 @@ import com.example.todobackend.entity.User;
 import com.example.todobackend.exception.ItemListWithIdNotFoundException;
 import com.example.todobackend.exception.ItemWithIdNotFoundException;
 import com.example.todobackend.exception.ItemWithNameNotFoundException;
+import com.example.todobackend.log.InfoLogger;
 import com.example.todobackend.repository.ItemListRepository;
 import com.example.todobackend.repository.ItemRepository;
 import com.example.todobackend.repository.TokenRepository;
 import com.example.todobackend.repository.UserRepository;
 import com.example.todobackend.requests.ItemCreateRequest;
 import com.example.todobackend.requests.ItemUpdateRequest;
+import com.example.todobackend.responses.ItemCreateResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -58,18 +61,19 @@ public class ItemController {
             throw new ItemWithNameNotFoundException(name);
         }), HttpStatus.OK);
     }
-
+    @InfoLogger("Item olusturuldu")
     @PostMapping("/todos/create")
 
-    public ResponseEntity<Item> createItem(@RequestHeader(HttpHeaders.AUTHORIZATION) String authToken, @Valid @RequestBody ItemCreateRequest itemCreateRequest) { // name description CreateTodoRequest (name desc, itemlistId)
+    public ResponseEntity<ItemCreateResponse> createItem(@RequestHeader(HttpHeaders.AUTHORIZATION) String authToken, @Valid @RequestBody ItemCreateRequest itemCreateRequest) { // name description CreateTodoRequest (name desc, itemlistId)
         String username = jwtUtils.getUserNameFromJwtToken(authToken);
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
 
         return new ResponseEntity<>(itemListRepository.findById(itemCreateRequest.getItemList_id()).map(itemList -> {
-            return itemRepository.save(itemCreateRequest.createItem(user, itemList)); // id date , item
+            Item resp = itemRepository.save(itemCreateRequest.createItem(user, itemList)); // id date , item
+            return new ItemCreateResponse("Item olusturuldu", resp.getId());
         }).orElseThrow(() -> new ItemWithIdNotFoundException(itemCreateRequest.getItemList_id())), HttpStatus.OK);
     }
-
+    @InfoLogger("Item guncellendi")
     @PutMapping("/todos/update/{id}")
     public ResponseEntity<Item> updateTodo(@RequestBody ItemUpdateRequest itemUpdateRequest) {
 /*
@@ -82,19 +86,18 @@ public class ItemController {
                 })
                 .orElseThrow(() -> new ItemListWithIdNotFoundException(itemUpdateRequest.getId())), HttpStatus.OK);
     }
-
-        @DeleteMapping("/todos/delete/{id}")
+    @InfoLogger("Item silindi")
+    @DeleteMapping("/todos/delete/{id}")
     public ResponseEntity<String> deleteTodo(@PathVariable("id") Long id, @RequestHeader(HttpHeaders.ACCEPT_LANGUAGE) Locale locale) { // her Long bir longtur ama her long bir Long degildir
         itemRepository.deleteById(id); // Sorgu geldigi zaman zaten frontend tarafinda id bulundugu icin var/yok bakmaya gerek yok
         return new ResponseEntity<>(messageSource.getMessage("{validation.delete}",null, locale),HttpStatus.NO_CONTENT); // ?ASK
     }
-
+    @InfoLogger("Tum itemlar silindi")
     @DeleteMapping("/todos/deleteAll")
     public ResponseEntity<String> deleteAllTodos(@RequestHeader(HttpHeaders.ACCEPT_LANGUAGE) Locale locale) {
         itemRepository.deleteAll();
         return new ResponseEntity<>(messageSource.getMessage("{validation.allDelete}",null, locale), HttpStatus.NO_CONTENT); // ?ASK
     }
-
     @PutMapping("/todos/check/{id}") // Burada tikli ise şu mesajı tik yoksa şu mesajı ver şeklinde bir şey yapılsın mı
     public ResponseEntity<Item> updateChecked(@PathVariable("id") Long id) {
         Item checkChange = itemRepository.findById(id).orElseThrow(() -> {

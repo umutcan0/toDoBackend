@@ -2,6 +2,7 @@ package com.example.todobackend.controller;
 
 import com.example.todobackend.configuration.services.EmailDetails;
 import com.example.todobackend.configuration.services.EmailService;
+import com.example.todobackend.log.InfoLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,7 @@ public class EmailController {
     private EmailService emailService;
 
     // Sending a simple Email
+    @InfoLogger("Mail gonderildi")
     @PostMapping("/sendMail")
     public String
     sendMail(@RequestBody EmailDetails details)

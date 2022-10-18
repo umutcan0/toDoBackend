@@ -29,7 +29,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/auth") // auth/register
@@ -60,12 +59,9 @@ public class AuthController {
     @Autowired
     private EmailServiceImpl emailServiceImpl;
 
+    @InfoLogger("Yeni bir kullanici olusturuldu")
     @PostMapping("/register")
     public ResponseEntity<SignUpResponse> registerUser(@RequestBody SignUpRequest signUpRequest) {  // "role": ["user"] firstname surname email,username, password email var mi yok mu
-        userRepository.findByUsername(signUpRequest.getUsername()).ifPresent(existingUser -> {
-            throw new UserWithUsernameExistsException(existingUser.getUsername());
-        });
-
         User user = new User(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()),
@@ -73,7 +69,7 @@ public class AuthController {
                 signUpRequest.getSurname()
         );
 
-        Role userRole = roleRepository.findByName(ERole.USER)
+        Role userRole = roleRepository.findByType(ERole.USER)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found.")); // RoleWithNameNotFoundException
 
         user.setRole(userRole);
@@ -86,7 +82,7 @@ public class AuthController {
         return new ResponseEntity<>(new SignUpResponse("Kullanici basarili bir sekilde kayit oldu! Giris yapiniz."), HttpStatus.OK);
     }
 
-    @InfoLogger("Kullanici Giris Yapti")
+    @InfoLogger("Kullanici giris yapti")
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> loginUser(@RequestBody LoginRequest loginRequest) {  // firstname surname email,username, password email var mi yok mu
         Authentication authentication = authenticationManager.authenticate(
@@ -106,7 +102,7 @@ public class AuthController {
                 userDetails.getEmail()), HttpStatus.OK);
     }
 
-
+    @InfoLogger("Kullanici dogrulandi")
     @GetMapping("/verify/{verified_id}")
     public ResponseEntity<String> getVerifyById(@RequestHeader(HttpHeaders.ACCEPT_LANGUAGE) Locale locale,
             @PathVariable("verified_id") Long verified_id) {

@@ -53,15 +53,4 @@ public class ItemCreateRequest {
 
     public void setItemList_id(Long itemList_id) {this.itemList_id = itemList_id;}
 
-    /*   public Long getItemList_id() {
-        return itemList_id;
-    }
-
-    public void setItemList_id(Long itemList_id) {
-        this.itemList_id = itemList_id;
-    }
-
-    public Long getReminder_id() {return reminder_id;}
-
-    public void setReminder_id(Long reminder_id) {this.reminder_id = reminder_id;}*/
 }

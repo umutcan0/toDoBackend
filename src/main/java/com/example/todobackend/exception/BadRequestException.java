@@ -16,7 +16,5 @@ public class BadRequestException extends RuntimeException{
         return args;
     }
 
-    public String getMessageName() {
-        return messageName;
-    }
+    public String getMessageName() { return messageName; }
 }
