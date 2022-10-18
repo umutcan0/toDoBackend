@@ -16,10 +16,10 @@ import io.jsonwebtoken.*;
 public class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-    @Value("${todobackend.app.jwtSecret}")// wwwwtoken
+    @Value("wwwtoken")// wwwwtoken
     private String jwtSecret;
 
-    @Value("${todobackend.app.jwtExpirationMs}")
+    @Value("86400000")
     private int jwtExpirationMs;
 
     public String generateJwtToken(Authentication authentication) {

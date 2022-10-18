@@ -19,26 +19,26 @@ import java.util.List;
 public class SignUpRequest {
 
 
-    @NotBlank(message = "{singuprequest.name.blank}")
-    @Size(min = 3, max = 20, message = "{singuprequest.name.length}")
+    @NotBlank(message = "{signuprequest.name.blank}")
+    @Size(min = 3, max = 20, message = "{signuprequest.name.length}")
     private String name;
 
-    @NotBlank(message = "{singuprequest.surname.blank}")
-    @Size(min = 3, max = 20, message = "{singuprequest.surname.length}")
+    @NotBlank(message = "{signuprequest.surname.blank}")
+    @Size(min = 3, max = 20, message = "{signuprequest.surname.length}")
     private String surname;
 
     //@UniqueInDB(reposıtory vs vs = "", column= "")
-    @UsernameExists(message = "{singuprequest.username.exist}") //my annotation
-    @NotBlank(message = "{singuprequest.username.blank}")
-    @Size(min = 3, max = 20, message = "{singuprequest.username.length}")
+    @UsernameExists(message = "{signuprequest.username.exist}") //my annotation
+    @NotBlank(message = "{signuprequest.username.blank}")
+    @Size(min = 3, max = 20, message = "{signuprequest.username.length}")
     private String username;
 
     //@UniqueInDB(table = "", column= "")
-    @EmailExists(message = "{singuprequest.email.exist}") //my annotation
-    @Email(message = "{singuprequest.email.control}")
+    @EmailExists(message = "{signuprequest.email.exist}") //my annotation
+    @Email(message = "{signuprequest.email.control}")
     private String email;
 
-    @NotBlank(message = "{singuprequest.password.blank}")
+    @NotBlank(message = "{signuprequest.password.blank}")
     @Size(min = 3, max = 20)
     private String password;
 
