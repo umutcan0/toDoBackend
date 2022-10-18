@@ -87,7 +87,7 @@ public class ItemListController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteItemList(@PathVariable("id") Long id, @RequestHeader(HttpHeaders.ACCEPT_LANGUAGE) Locale locale) {//HTTP status string yapld neden
+    public ResponseEntity<String> deleteItemList(@PathVariable("id") Long id, @RequestHeader(HttpHeaders.ACCEPT_LANGUAGE) Locale locale) {//HTTP status string yapldı neden
         itemListRepository.deleteById(id);
         return new ResponseEntity<>(messageSource.getMessage("{validation.delete}",null, locale), HttpStatus.NO_CONTENT); // ?AS
     }
