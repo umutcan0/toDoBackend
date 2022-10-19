@@ -91,10 +91,18 @@ public class AuthController {
         String jwt = jwtUtils.generateJwtToken(authentication); // JWT Token - 1 haftalik token
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        Token token = new Token(); // NotificationToken
-        token.setFcm_token(loginRequest.getFcm_token());
-        token.setUser(userRepository.findByUsername(loginRequest.getUsername()).orElseThrow()); //Passworddonotmatchexception
-        tokenRepository.save(token);
+        tokenRepository.findTokenByUser_Username(loginRequest.getUsername()).ifPresentOrElse(
+                token -> {
+                    token.setFcm_token(loginRequest.getFcm_token());
+                    tokenRepository.save(token);
+                },
+                () -> {
+                    Token token = new Token(); // NotificationToken
+                    token.setFcm_token(loginRequest.getFcm_token());
+                    token.setUser(userRepository.findByUsername(loginRequest.getUsername()).orElseThrow()); //Passworddonotmatchexception
+                    tokenRepository.save(token);
+                }
+        );
         return new ResponseEntity<>(new LoginResponse(
                 jwt,
                 userDetails.getId(),

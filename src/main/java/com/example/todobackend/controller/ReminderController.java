@@ -52,7 +52,7 @@ public class ReminderController {
     @PostMapping("/create") // /reminder/adasdasd
     public ResponseEntity<ReminderCreateResponse> createReminder(@RequestHeader(HttpHeaders.AUTHORIZATION) String authToken, @RequestBody ReminderCreateRequest reminderCreateRequest) { // date
         String username = jwtUtils.getUserNameFromJwtToken(authToken);
-        Token token = tokenRepository.findTokenByUser_Username(username);
+        Token token = tokenRepository.findTokenByUser_Username(username).orElseThrow(); //!TODO
 
         return new ResponseEntity<>(itemRepository.findById(reminderCreateRequest.getItem_id()).map(item -> {
             Reminder resp = reminderRepository.save(reminderCreateRequest.createReminder(token, item)); // id date , item

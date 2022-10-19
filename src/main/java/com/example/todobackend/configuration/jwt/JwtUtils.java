@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 
 import io.jsonwebtoken.*;
+import org.springframework.util.StringUtils;
 
 @Component
 public class JwtUtils {
@@ -36,6 +37,12 @@ public class JwtUtils {
 
     public String getUserNameFromJwtToken(String token) { // "email"
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+    }
+    public String getUserNameFromJwtTokenWithBearer(String authHeader) {
+        if (StringUtils.hasText(authHeader) && authHeader.startsWith("Bearer ")) {
+            return authHeader.substring(7, authHeader.length());
+        }
+        return getUserNameFromJwtToken(authHeader);
     }
 
     public boolean validateJwtToken(String authToken) {

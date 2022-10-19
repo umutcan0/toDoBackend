@@ -64,13 +64,13 @@ public class ItemController {
     @InfoLogger("Item olusturuldu")
     @PostMapping("/todos/create")
 
-    public ResponseEntity<ItemCreateResponse> createItem(@RequestHeader(HttpHeaders.AUTHORIZATION) String authToken, @Valid @RequestBody ItemCreateRequest itemCreateRequest) { // name description CreateTodoRequest (name desc, itemlistId)
-        String username = jwtUtils.getUserNameFromJwtToken(authToken);
+    public ResponseEntity<String> createItem(@RequestHeader(HttpHeaders.AUTHORIZATION) String authToken, @Valid @RequestBody ItemCreateRequest itemCreateRequest) { // name description CreateTodoRequest (name desc, itemlistId)
+        String username = jwtUtils.getUserNameFromJwtTokenWithBearer(authToken);
         User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
 
         return new ResponseEntity<>(itemListRepository.findById(itemCreateRequest.getItemList_id()).map(itemList -> {
             Item resp = itemRepository.save(itemCreateRequest.createItem(user, itemList)); // id date , item
-            return new ItemCreateResponse("Item olusturuldu", resp.getId());
+            return "Item Oluşturuldu"; //new ItemCreateResponse("Item olusturuldu", resp.getId());
         }).orElseThrow(() -> new ItemWithIdNotFoundException(itemCreateRequest.getItemList_id())), HttpStatus.OK);
     }
     @InfoLogger("Item guncellendi")
@@ -100,9 +100,12 @@ public class ItemController {
     }
     @PutMapping("/todos/check/{id}") // Burada tikli ise şu mesajı tik yoksa şu mesajı ver şeklinde bir şey yapılsın mı
     public ResponseEntity<Item> updateChecked(@PathVariable("id") Long id) {
-        Item checkChange = itemRepository.findById(id).orElseThrow(() -> {
+        Item checkChange = itemRepository.findById(id).map(item -> {
+            item.setChecked(!item.getChecked());
+            return itemRepository.save( item);
+        }).orElseThrow(() -> {
             throw new ItemWithIdNotFoundException(id);
         });
-        return new ResponseEntity<>(itemRepository.save(checkChange.setChecked()), HttpStatus.OK);
+        return new ResponseEntity<>(checkChange, HttpStatus.OK);
     }
 }

@@ -1,9 +1,12 @@
 package com.example.todobackend.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Set;
 
+@Data
 @Entity
 @Table(name = "crud_cantodo")
 public class Item {
@@ -55,10 +58,7 @@ public class Item {
         this.description = description;
     }
 
-    public Item setChecked() {
-        this.checked = !this.checked;
-        return this;
-    }
+
     public ItemList getItemList() {
         return itemList;
     }
