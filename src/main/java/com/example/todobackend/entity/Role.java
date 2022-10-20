@@ -1,8 +1,10 @@
 package com.example.todobackend.entity;
 
-import javax.persistence.*;
-import java.util.Set;
+import lombok.Data;
 
+import javax.persistence.*;
+
+@Data
 @Entity
 @Table(name = "roles")
 public class Role {
@@ -15,7 +17,6 @@ public class Role {
     private ERole type;
 
 
-
     public Role(ERole type) {
         this.type = type;
     }
@@ -23,21 +24,4 @@ public class Role {
     public Role() {
 
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public ERole getType() {
-        return type;
-    }
-
-    public void setType(ERole type) {
-        this.type = type;
-    }
-
 }

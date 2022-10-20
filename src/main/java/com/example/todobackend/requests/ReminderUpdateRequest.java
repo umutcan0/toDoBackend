@@ -1,11 +1,11 @@
 package com.example.todobackend.requests;
 
 import com.example.todobackend.validation.DateIsAfter;
+import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.util.Date;
 
+@Data
 public class ReminderUpdateRequest {
 
     @DateIsAfter
@@ -14,15 +14,8 @@ public class ReminderUpdateRequest {
     private Long id;
 
 
-    public ReminderUpdateRequest(){
+    public ReminderUpdateRequest() {
 
     }
 
-    public Date getDate() {return date;}
-
-    public void setDate(Date date) {this.date = date;}
-
-    public Long getId() {return id;}
-
-    public void setId(Long id) {this.id = id;}
 }

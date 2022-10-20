@@ -9,6 +9,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD, ElementType.FIELD})
 public @interface InfoLogger {
     String value();
+
     boolean showData() default false;
     //log detail level koy.=error,io,time
 }

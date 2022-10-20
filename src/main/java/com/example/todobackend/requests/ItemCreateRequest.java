@@ -3,10 +3,12 @@ package com.example.todobackend.requests;
 import com.example.todobackend.entity.Item;
 import com.example.todobackend.entity.ItemList;
 import com.example.todobackend.entity.User;
+import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+@Data
 public class ItemCreateRequest {
 
     @NotBlank(message = "{itemcreaterequest.name.blank}")
@@ -30,27 +32,4 @@ public class ItemCreateRequest {
         item.setDescription(this.description);
         return item;
     }
-
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Long getItemList_id() {return itemList_id;}
-
-    public void setItemList_id(Long itemList_id) {this.itemList_id = itemList_id;}
-
 }

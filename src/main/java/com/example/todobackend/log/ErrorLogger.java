@@ -10,5 +10,6 @@ import java.lang.annotation.Target;
 public @interface ErrorLogger {
 
     String value();
+
     boolean showData() default false;
 }

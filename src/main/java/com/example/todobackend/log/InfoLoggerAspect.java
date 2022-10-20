@@ -20,27 +20,26 @@ import java.util.Set;
 public class InfoLoggerAspect {
 
 
-
     @AfterReturning(pointcut = "@annotation(com.example.todobackend.log.InfoLogger)", returning = "object")
     private static void log(JoinPoint joinPoint, Object object) throws IllegalAccessException {
-             String methodMessage = getMethodMessage(joinPoint);
-             Class<?> objectClass = object.getClass();
-             Map<String, String> logElements = new HashMap<>();
-             Set<String> displayFields = new HashSet<>();
-             for (Field field : objectClass.getDeclaredFields()) {
-                 field.setAccessible(true);
-                 if (field.isAnnotationPresent(InfoLogger.class)) {
-                     if (checkIsShowDataEnabled(field)) {
-                         logElements.put(getFieldValue(field), String.valueOf(field.get(object)));
-                     } else {
-                         displayFields.add(getFieldValue(field));
-                     }
-                 }
-             }
-             log.info("method message: " + methodMessage);
-             log.info("displayed fields: " + String.join(", ", displayFields));
-             log.info("displayed fields with data: " + logElements.toString());
-         }
+        String methodMessage = getMethodMessage(joinPoint);
+        Class<?> objectClass = object.getClass();
+        Map<String, String> logElements = new HashMap<>();
+        Set<String> displayFields = new HashSet<>();
+        for (Field field : objectClass.getDeclaredFields()) {
+            field.setAccessible(true);
+            if (field.isAnnotationPresent(InfoLogger.class)) {
+                if (checkIsShowDataEnabled(field)) {
+                    logElements.put(getFieldValue(field), String.valueOf(field.get(object)));
+                } else {
+                    displayFields.add(getFieldValue(field));
+                }
+            }
+        }
+        log.info("method message: " + methodMessage);
+        log.info("displayed fields: " + String.join(", ", displayFields));
+        log.info("displayed fields with data: " + logElements.toString());
+    }
 
     private static String getMethodMessage(JoinPoint joinPoint) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();

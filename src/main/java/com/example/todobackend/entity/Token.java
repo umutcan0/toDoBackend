@@ -6,15 +6,15 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
 @Data
+@Entity
 @Table(name = "token_cantodo")
 public class Token {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name= "fcm_token")
+    @Column(name = "fcm_token")
     private String fcm_token;
 
     @OneToOne(fetch = FetchType.EAGER)

@@ -20,8 +20,7 @@ public class EmailController {
     @InfoLogger("Mail gonderildi")
     @PostMapping("/sendMail")
     public String
-    sendMail(@RequestBody EmailDetails details)
-    {
+    sendMail(@RequestBody EmailDetails details) {
         String status = emailService.sendSimpleMail(details);
 
         return status;
@@ -30,8 +29,7 @@ public class EmailController {
     // Sending email with attachment
     @PostMapping("/sendMailWithAttachment")
     public String sendMailWithAttachment(
-            @RequestBody EmailDetails details)
-    {
+            @RequestBody EmailDetails details) {
         String status = emailService.sendMailWithAttachment(details);
 
         return status;

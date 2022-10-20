@@ -1,6 +1,5 @@
 package com.example.todobackend.repository;
 
-import com.example.todobackend.entity.User;
 import com.example.todobackend.entity.Verified;
 import org.springframework.data.jpa.repository.JpaRepository;
 

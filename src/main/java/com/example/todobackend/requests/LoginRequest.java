@@ -1,8 +1,11 @@
 package com.example.todobackend.requests;
 
+import lombok.Data;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+@Data
 public class LoginRequest {
 
     @NotBlank(message = "{loginrequest.username.blank}")
@@ -15,7 +18,7 @@ public class LoginRequest {
 
     private String fcm_token;
 
-    public LoginRequest(){
+    public LoginRequest() {
 
     }
 
@@ -25,25 +28,4 @@ public class LoginRequest {
         this.password = password;
         this.fcm_token = fcm_token;
     }
-
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getFcm_token() {return fcm_token;}
-
-    public void setFcm_token(String fcm_token) {this.fcm_token = fcm_token;}
 }

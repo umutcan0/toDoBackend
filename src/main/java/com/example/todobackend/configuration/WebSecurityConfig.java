@@ -26,7 +26,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(
 
         prePostEnabled = true)
-public class WebSecurityConfig  {
+public class WebSecurityConfig {
     private static final Logger logger = LoggerFactory.getLogger(WebSecurityConfig.class);
 
     @Autowired
@@ -42,6 +42,7 @@ public class WebSecurityConfig  {
         return authTokenFilter;
 
     }
+
     @Bean // Spring boot security
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(); // Spring boot tarafindan geliyor
@@ -50,7 +51,7 @@ public class WebSecurityConfig  {
             authProvider.setUserDetailsService(userDetailsService);
             authProvider.setPasswordEncoder(passwordEncoder()); // bcrypt / argon2
             return authProvider;
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error("sadasde: {}", e.getMessage());
             throw e;
         }

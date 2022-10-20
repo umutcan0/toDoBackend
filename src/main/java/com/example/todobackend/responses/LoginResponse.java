@@ -1,14 +1,16 @@
 package com.example.todobackend.responses;
 
 import com.example.todobackend.log.InfoLogger;
+import lombok.Data;
 
+@Data
 public class LoginResponse {
     private String token;
     private String type = "Bearer";
     private Long id;
-    @InfoLogger(value="Kullanici adi", showData = true)
+    @InfoLogger(value = "Kullanici adi", showData = true)
     private String username;
-    @InfoLogger(value="Kullanici e postasi")
+    @InfoLogger(value = "Kullanici e postasi")
     private String email;
 
 
@@ -19,11 +21,12 @@ public class LoginResponse {
         this.email = email;
 
     }
+
     public LoginResponse() {
 
     }
 
-    public String getAccessToken() {
+    /* public String getAccessToken() {
         return token;
     }
 
@@ -61,8 +64,6 @@ public class LoginResponse {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-
+    }*/
 
 }

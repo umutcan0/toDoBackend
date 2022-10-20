@@ -6,12 +6,12 @@ public class ItemListUpdateResponse {
 
     private Long itemListId;
 
-    @InfoLogger(value="ItemList guncellendi", showData = true)
+    @InfoLogger(value = "ItemList guncellendi", showData = true)
     private String message;
 
     public ItemListUpdateResponse(String message, Long itemListId) {
         this.message = message;
-        this.itemListId=itemListId;
+        this.itemListId = itemListId;
     }
 
     public ItemListUpdateResponse() {

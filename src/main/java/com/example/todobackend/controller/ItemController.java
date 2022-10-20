@@ -1,9 +1,7 @@
 package com.example.todobackend.controller;
 
-import com.example.todobackend.configuration.WebSecurityConfig;
 import com.example.todobackend.configuration.jwt.JwtUtils;
 import com.example.todobackend.entity.Item;
-import com.example.todobackend.entity.ItemList;
 import com.example.todobackend.entity.User;
 import com.example.todobackend.exception.ItemListWithIdNotFoundException;
 import com.example.todobackend.exception.ItemWithIdNotFoundException;
@@ -11,11 +9,9 @@ import com.example.todobackend.exception.ItemWithNameNotFoundException;
 import com.example.todobackend.log.InfoLogger;
 import com.example.todobackend.repository.ItemListRepository;
 import com.example.todobackend.repository.ItemRepository;
-import com.example.todobackend.repository.TokenRepository;
 import com.example.todobackend.repository.UserRepository;
 import com.example.todobackend.requests.ItemCreateRequest;
 import com.example.todobackend.requests.ItemUpdateRequest;
-import com.example.todobackend.responses.ItemCreateResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +57,7 @@ public class ItemController {
             throw new ItemWithNameNotFoundException(name);
         }), HttpStatus.OK);
     }
+
     @InfoLogger("Item olusturuldu")
     @PostMapping("/todos/create")
 
@@ -73,6 +70,7 @@ public class ItemController {
             return "Item Oluşturuldu"; //new ItemCreateResponse("Item olusturuldu", resp.getId());
         }).orElseThrow(() -> new ItemWithIdNotFoundException(itemCreateRequest.getItemList_id())), HttpStatus.OK);
     }
+
     @InfoLogger("Item guncellendi")
     @PutMapping("/todos/update/{id}")
     public ResponseEntity<Item> updateTodo(@RequestBody ItemUpdateRequest itemUpdateRequest) {
@@ -86,23 +84,26 @@ public class ItemController {
                 })
                 .orElseThrow(() -> new ItemListWithIdNotFoundException(itemUpdateRequest.getId())), HttpStatus.OK);
     }
+
     @InfoLogger("Item silindi")
     @DeleteMapping("/todos/delete/{id}")
     public ResponseEntity<String> deleteTodo(@PathVariable("id") Long id, @RequestHeader(HttpHeaders.ACCEPT_LANGUAGE) Locale locale) { // her Long bir longtur ama her long bir Long degildir
         itemRepository.deleteById(id); // Sorgu geldigi zaman zaten frontend tarafinda id bulundugu icin var/yok bakmaya gerek yok
-        return new ResponseEntity<>(messageSource.getMessage("{validation.delete}",null, locale),HttpStatus.NO_CONTENT); // ?ASK
+        return new ResponseEntity<>(messageSource.getMessage("{validation.delete}", null, locale), HttpStatus.NO_CONTENT); // ?ASK
     }
+
     @InfoLogger("Tum itemlar silindi")
     @DeleteMapping("/todos/deleteAll")
     public ResponseEntity<String> deleteAllTodos(@RequestHeader(HttpHeaders.ACCEPT_LANGUAGE) Locale locale) {
         itemRepository.deleteAll();
-        return new ResponseEntity<>(messageSource.getMessage("{validation.allDelete}",null, locale), HttpStatus.NO_CONTENT); // ?ASK
+        return new ResponseEntity<>(messageSource.getMessage("{validation.allDelete}", null, locale), HttpStatus.NO_CONTENT); // ?ASK
     }
+
     @PutMapping("/todos/check/{id}") // Burada tikli ise şu mesajı tik yoksa şu mesajı ver şeklinde bir şey yapılsın mı
     public ResponseEntity<Item> updateChecked(@PathVariable("id") Long id) {
         Item checkChange = itemRepository.findById(id).map(item -> {
             item.setChecked(!item.getChecked());
-            return itemRepository.save( item);
+            return itemRepository.save(item);
         }).orElseThrow(() -> {
             throw new ItemWithIdNotFoundException(id);
         });

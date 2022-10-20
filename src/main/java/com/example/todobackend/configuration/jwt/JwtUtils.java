@@ -1,17 +1,15 @@
 package com.example.todobackend.configuration.jwt;
 
-import java.util.Date;
-
 import com.example.todobackend.configuration.services.UserDetailsImpl;
+import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
-
-
-import io.jsonwebtoken.*;
 import org.springframework.util.StringUtils;
+
+import java.util.Date;
 
 @Component
 public class JwtUtils {
@@ -38,6 +36,7 @@ public class JwtUtils {
     public String getUserNameFromJwtToken(String token) { // "email"
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
     }
+
     public String getUserNameFromJwtTokenWithBearer(String authHeader) {
         if (StringUtils.hasText(authHeader) && authHeader.startsWith("Bearer ")) {
             return authHeader.substring(7, authHeader.length());

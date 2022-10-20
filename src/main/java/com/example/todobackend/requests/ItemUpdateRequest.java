@@ -11,7 +11,7 @@ public class ItemUpdateRequest {
 
     private Long id;
 
-    public ItemUpdateRequest(){
+    public ItemUpdateRequest() {
 
     }
 

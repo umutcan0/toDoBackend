@@ -10,7 +10,6 @@ import com.example.todobackend.repository.ItemListRepository;
 import com.example.todobackend.repository.UserRepository;
 import com.example.todobackend.requests.ItemListCreateRequest;
 import com.example.todobackend.requests.ItemListUpdateRequest;
-import com.example.todobackend.responses.ItemListCreateResponse;
 import com.example.todobackend.responses.ItemListUpdateResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -20,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Locale;
 
@@ -52,7 +52,9 @@ public class ItemListController {
         return new ResponseEntity<>(
                 itemListRepository.findAllByOwnerId(owner_id).orElseThrow(() -> new UserWithIdNotFoundException(owner_id)) // findAllByOwnerUsername
                 , HttpStatus.OK);
+
     }
+
     @GetMapping("/search/{name}") // Get all reminders by item id
     public ResponseEntity<List<ItemList>> getAllItemListsByName(@PathVariable("name") String name) {
         return new ResponseEntity<>(
@@ -61,23 +63,19 @@ public class ItemListController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createItemList(@RequestHeader(HttpHeaders.AUTHORIZATION) String authToken, @RequestBody ItemListCreateRequest itemListCreateRequest) { // @RequestHeader( value="Authorization")
+    public ResponseEntity<String> createItemList(@RequestHeader(HttpHeaders.AUTHORIZATION) String authToken, @Valid @RequestBody ItemListCreateRequest itemListCreateRequest) { // @RequestHeader( value="Authorization")
+
         String username = jwtUtils.getUserNameFromJwtTokenWithBearer(authToken); //umut, 1, umut@gmail.com // authToken -> "Bearer sdfjghsdfhgksdfgsdfg"
 
-        // her bir jwtToken bir authorization tokenidir
-        // authentication -> bi siteye giris yapmak
-        // authorization -> bi sitede yetkiye sahip olmak
-
-        // itemlist adi gonderilecek
-        // itemlist adi 2 ile 40 karakter
         String listName = itemListCreateRequest.getListName();
         return new ResponseEntity<>(userRepository.findByUsername(username).map(user -> {
+                    System.out.println(user.getUsername());
                     ItemList itemList = new ItemList();
                     itemList.setOwner(user);
                     itemList.setListName(listName);
-                    itemListRepository.save(itemList);
+                    ItemList savedItemList = itemListRepository.save(itemList);
                     // return itemListRepository.save(itemList);
-                    return "ItemLıst oluşturuldu";//new ItemListCreateResponse("ItemList olusturuldu", itemList.getId());
+                    return "Item created"; // new ItemListCreateResponse("ItemList olusturuldu", savedItemList.getId());
 
                 })
                 .orElseThrow(() -> new UsernameNotFoundException(username))

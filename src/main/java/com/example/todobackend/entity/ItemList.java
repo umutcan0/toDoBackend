@@ -1,11 +1,13 @@
 package com.example.todobackend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@Data
 @Entity
 @Table(name = "item_list")
 public class ItemList {
@@ -24,34 +26,4 @@ public class ItemList {
     @JsonIgnore
     private User owner;
 
-
-    public Long getId() {return id;}
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getListName() {
-        return listName;
-    }
-
-    public void setListName(String listName) {
-        this.listName = listName;
-    }
-
-    public Set<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(Set<Item> items) {
-        this.items = items;
-    }
-
-    public User getOwner() {
-        return owner;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
-    }
 }

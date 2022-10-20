@@ -32,7 +32,7 @@ public class RestGenericErrorAdvice {
         genericError.addObject("exception", e);
         genericError.addObject("url", request.getRequestURL());
         genericError.setViewName(DEFAULT_ERROR_VIEW);
-        log.error("Error url {}",request.getRequestURL());
+        log.error("Error url {}", request.getRequestURL());
         return genericError;
     }
 }

@@ -21,12 +21,14 @@ public class Internationalization extends WebMvcConfigurerAdapter {
         sessionLocaleResolver.setDefaultLocale(Locale.US);
         return sessionLocaleResolver;
     }
+
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
         localeChangeInterceptor.setParamName("language");
         return localeChangeInterceptor;
     }
+
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource
@@ -36,6 +38,7 @@ public class Internationalization extends WebMvcConfigurerAdapter {
         messageSource.setDefaultEncoding("UTF-16");
         return messageSource;
     }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());

@@ -1,7 +1,7 @@
 package com.example.todobackend.schedules;
 
-import com.example.todobackend.repository.ReminderRepository;
 import com.example.todobackend.configuration.services.FirebaseMessagingService;
+import com.example.todobackend.repository.ReminderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

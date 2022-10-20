@@ -6,12 +6,12 @@ public class ReminderUpdateResponse {
 
     private Long reminderId;
 
-    @InfoLogger(value="ItemList olusturuldu", showData = true)
+    @InfoLogger(value = "ItemList olusturuldu", showData = true)
     private String message;
 
     public ReminderUpdateResponse(String message, Long reminderId) {
         this.message = message;
-        this.reminderId=reminderId;
+        this.reminderId = reminderId;
     }
 
     public ReminderUpdateResponse() {

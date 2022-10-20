@@ -6,7 +6,8 @@ import com.example.todobackend.configuration.services.EmailDetails;
 import com.example.todobackend.configuration.services.EmailServiceImpl;
 import com.example.todobackend.configuration.services.UserDetailsImpl;
 import com.example.todobackend.entity.*;
-import com.example.todobackend.exception.*;
+import com.example.todobackend.exception.RoleNotFoundException;
+import com.example.todobackend.exception.UserCouldNotBeVerifiedException;
 import com.example.todobackend.log.InfoLogger;
 import com.example.todobackend.repository.RoleRepository;
 import com.example.todobackend.repository.TokenRepository;
@@ -28,7 +29,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/auth") // auth/register
@@ -75,7 +78,7 @@ public class AuthController {
         user.setRole(userRole);
         User user1 = userRepository.save(user);
         Random random = new Random();
-        Verified verified=new Verified(true, random.nextLong(100000000), false, user1);
+        Verified verified = new Verified(true, random.nextLong(100000000), false, user1);
         verifiedRepository.save(verified);
         emailServiceImpl.sendSimpleMail(new EmailDetails(user1.getEmail(), verified.getVerificationSlug(), "Hesabinizi onaylayin"));
 
@@ -113,12 +116,12 @@ public class AuthController {
     @InfoLogger("Kullanici dogrulandi")
     @GetMapping("/verify/{verified_id}")
     public ResponseEntity<String> getVerifyById(@RequestHeader(HttpHeaders.ACCEPT_LANGUAGE) Locale locale,
-            @PathVariable("verified_id") Long verified_id) {
+                                                @PathVariable("verified_id") Long verified_id) {
         verifiedRepository.findByVerificationSlug(verified_id).map(verified -> {
             verified.setApproved(true);
             return verifiedRepository.save(verified);
         }).orElseThrow(() -> new UserCouldNotBeVerifiedException(verified_id));
-        return new ResponseEntity<>(messageSource.getMessage("{validation.successful}",null, locale), HttpStatus.OK);
+        return new ResponseEntity<>(messageSource.getMessage("{validation.successful}", null, locale), HttpStatus.OK);
     }
 
     @GetMapping("/users")
