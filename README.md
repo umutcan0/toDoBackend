@@ -1,6 +1,8 @@
 ✅ Todo Backend Requirements  
 
-🚀 A scalable and efficient backend system for managing Todo items.
+📌 Project Description  
+
+A scalable and efficient backend system for managing Todo items.
 This project includes user authentication, Firebase push notifications, scheduling, and multi-tenancy support. Below are the key components and their progress.
 
 📝 Reminder Module
