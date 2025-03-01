@@ -26,7 +26,18 @@ This project includes user authentication, Firebase push notifications, scheduli
 🔹 Firebase Push Notifications ⏳ (Enhancing real-time notification system)  
 🔹 Restricted Endpoints ⏳ (Role-based access control & security hardening)  
 🔹 Todo Lists Management ⏳ (CRUD operations & advanced filtering options)  
-🔹 Pub/Sub Architecture ⏳ (Implementing event-driven communication pattern)  
+🔹 Pub/Sub Architecture ⏳ (Implementing event-driven communication pattern) 
+
+
+📜 License
+
+This project is licensed under the MIT License.
+
+
+📌 Author
+
+Umut Can BAL - Java |Spring Boot - Backend Developer | Passionate about Microservices & Scalable Applications
+
 
 🚀 Stay tuned for more updates!  
 
