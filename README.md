@@ -5,15 +5,15 @@ This project includes user authentication, Firebase push notifications, scheduli
 
 📝 Reminder Module
 
-✔ Reminder Entity ✅ (Implemented & Functional)
-✔ JPA Repository for Reminders ✅ (Optimized for performance)
-✔ Reminder Controller ✅ (REST API exposed & tested)
+✔ Reminder Entity ✅ (Implemented & Functional)  
+✔ JPA Repository for Reminders ✅ (Optimized for performance)  
+✔ Reminder Controller ✅ (REST API exposed & tested)  
 
 🔥 Firebase Integration
 
-✔ Firebase Integration ✅ (Successfully connected)
-✔ Firebase Bean Configuration ✅ (Seamless integration with Spring Boot)
-✔ Messaging Service ✅ (Push notifications configured & working)
+✔ Firebase Integration ✅ (Successfully connected)  
+✔ Firebase Bean Configuration ✅ (Seamless integration with Spring Boot)  
+✔ Messaging Service ✅ (Push notifications configured & working)  
 
 🚧 Upcoming Features (TODO List)
 
